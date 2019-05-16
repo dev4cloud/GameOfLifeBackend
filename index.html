@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Merge Page</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+function loadDatabase(){
+ $.ajax({    //query the database
+    type: "GET",
+    url: "https://game-of-life-backend.eu-de.mybluemix.net/v2/gol",
+    //data: 'page='+url,  //with the page number as a parameter
+    dataType: "json",   //expect html to be returned
+    success: function(msg){
+        console.log(msg)
+        var html = ""
+        for(var i=0; i<msg.length; ++i){
+            html += ("<b>"+msg[i].title+"</b>")
+            html += ("<p>"+msg[i].body+"</p>")
+        }
+        $('#database').html(html);    //load the returned html into pageContet
+    }
+ });
+}
+$(document).ready(function(){
+ $("#msgid").html("This is Hello World by JQuery");
+
+ $.ajax({    //play gol
+    type: "GET",
+    url: "https://eu-de.functions.cloud.ibm.com/api/v1/web/pohl%40de.ibm.com_dev/default/helloJava.json",
+    dataType: "json",   //expect html to be returned
+    success: function(msg){
+        var board = msg.grid;
+        console.log(board)
+        var niceBoard = "";
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[0].length; j++) {
+            niceBoard += board[i][j] ? "." : "*";
+            }
+            niceBoard += "<br/>"
+        }
+        $('#gol').html(niceBoard);    //load the returned html into pageContet
+    }
+ });
+
+loadDatabase();
+
+});
+
+function writeToTheDatabase(){
+
+ var data = {
+  "body": "my body  that is very special",
+  "title": "This is my new written title"
+ };
+ $.ajax({    //query the database
+    type: "POST",
+    url: "https://game-of-life-backend.eu-de.mybluemix.net/v2/gol",
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    data: JSON.stringify(data),
+    success: loadDatabase
+ });
+}
+
+
+
+</script>
+
+Here we will merge two applications
+
+<div id="gol">
+</div>
+
+<hr></hr>
+Here goes the database stuff
+<p><button onclick="writeToTheDatabase()">click</button></p>
+<div id="database">
+</div>
+
+
+</body>
+</html>

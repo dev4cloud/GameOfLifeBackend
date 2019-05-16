@@ -1,0 +1,153 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a simple sample server.  You can find out more about\
+    \     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net,\
+    \ #swagger](http://swagger.io/irc/)."
+  version: "1.0.0"
+  title: "Game of Life Backend"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "game-of-life-backend.eu-de.mybluemix.net"
+basePath: "/v2"
+tags:
+- name: "gol"
+  description: "Everything about game of life"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /gol:
+    get:
+      tags:
+      - "gol"
+      summary: "Get gol data"
+      description: "Returns all data"
+      operationId: "get_all"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/gol"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Data not found"
+      security:
+      - api_key: []
+      x-swagger-router-controller: "swagger_server.controllers.gol_controller"
+    post:
+      tags:
+      - "gol"
+      summary: "Add a new entry"
+      description: ""
+      operationId: "add_entry"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "gol object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/gol"
+      responses:
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.gol_controller"
+  /gol/{entryId}:
+    get:
+      tags:
+      - "gol"
+      summary: "Find entry by ID"
+      description: "Returns a single entry"
+      operationId: "get_entry_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "entryId"
+        in: "path"
+        description: "ID of entry to return"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/gol"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Entry not found"
+      security:
+      - api_key: []
+      x-swagger-router-controller: "swagger_server.controllers.gol_controller"
+    delete:
+      tags:
+      - "gol"
+      summary: "Deletes a entry"
+      description: ""
+      operationId: "delete_entry"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "entryId"
+        in: "path"
+        description: "Entry id to delete"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Document not found"
+      security:
+      - api_key: []
+      x-swagger-router-controller: "swagger_server.controllers.gol_controller"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  gol:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      title:
+        type: "string"
+      body:
+        type: "string"
+    example:
+      _id: "asdflasjdfl"
+      title: "title"
+      body: "body"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

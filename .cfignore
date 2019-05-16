@@ -1,0 +1,10 @@
+venv
+env
+ENV
+activate
+.swagger-codegen
+.git
+.tox
+Dockerfile
+tox.ini
+.idea

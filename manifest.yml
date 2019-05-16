@@ -1,0 +1,6 @@
+---
+applications:
+ - name: game-of-life-backend
+   memory: 128M
+   buildpacks:
+     - python_buildpack

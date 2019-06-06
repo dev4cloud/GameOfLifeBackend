@@ -23,13 +23,12 @@ def main():
     app.add_api('swagger.yaml', arguments={'title': 'Game of Life backend'})
     # auth = OIDCAuthentication(app=app, provider_configuration_info=provider_config, client_registration_info=client_info)
     CORS(app.app)
+
+    @app.app.route("/test")
+    def test():
+        return 'version 1'
+
     app.run(port=port)
-
-    # @app.route("/foo")
-    # @auth.ocid_auth
-    # def foo():
-    #     return "foo"
-
 
 if __name__ == '__main__':
     main()

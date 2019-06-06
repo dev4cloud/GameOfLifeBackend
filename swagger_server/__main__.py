@@ -26,7 +26,7 @@ def main():
 
     @app.app.route("/test")
     def test():
-        return 'version 2'
+        return 'version 3'
 
     app.run(port=port)
 

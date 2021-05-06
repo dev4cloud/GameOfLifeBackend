@@ -2,6 +2,6 @@ connexion == 1.1.15
 python_dateutil == 2.6.0
 setuptools >= 21.0.0
 cloudant == 2.12.0
-Flask_Cors == 3.0.7
+Flask_Cors == 3.0.9
 Flask-pyoidc == 2.0.0
 idna == 2.8
